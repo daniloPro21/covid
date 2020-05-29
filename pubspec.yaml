@@ -20,6 +20,21 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^0.17.4
+  flutter_map: ^0.9.0
+  async: ^2.4.0
+  cached_network_image: ^2.2.0+1
+  flutter_image: ^3.0.0
+  path_provider: ^1.6.9
+  latlong: ^0.6.1
+  meta: ^1.1.8
+  positioned_tap_detector: ^1.0.3
+
+
+
+
+  # flutter_local_notifications: ^1.4.3
+  # http: ^0.12.1
+  # rxdart: ^0.24.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -48,7 +63,7 @@ flutter:
     - assets/images/covid2.jpg
     - assets/images/second.jpg
     - assets/Icons/dropdown.svg
-    - assets/Icons/maps-and-flags.svg
+    - assets/Icons/marker.svg
     - assets/Icons/tre.svg
     - assets/images/1.jpg
     - assets/images/map.png
@@ -59,7 +74,19 @@ flutter:
     - assets/images/caugh.png
     - assets/images/hello.png
     - assets/images/new.jpg
-    - assets/images/hello.png
+    - assets/images/jj.png
+    - assets/images/toux.png
+    - assets/images/fievre.jpg
+    - assets/images/socialDistance.png
+    - assets/images/hands.png
+    - assets/images/call.png
+    - assets/images/stayHome.svg
+
+    
+
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
