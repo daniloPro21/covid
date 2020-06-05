@@ -4,8 +4,9 @@ import 'package:covid/Notifications.dart';
 import 'package:covid/Orders.dart';
 import 'package:covid/Dashboard.dart';
 import 'package:covid/PTest.dart';
+import 'dart:async';
 
-//import 'package:covid/core/notificationsService';
+
 
 
 class MyHomePage extends StatefulWidget {
@@ -43,6 +44,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+ 
+  
+
+
+
   @override
   Widget build(BuildContext context) {
    
@@ -69,8 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
        
         items: [
           BottomNavigationBarItem(
-            icon: Icon( Icons.home),
-            title: Text("Acceuil"),
+            icon: Icon( Icons.show_chart),
+            title: Text("Statistiques"),
           
           ),
            BottomNavigationBarItem(
@@ -146,8 +152,8 @@ Widget _Slider()
           ),
         ),
         ListTile(
-          leading: Icon(Icons.home,color: Colors.white),
-          title: Text("Acceuil",style: 
+          leading: Icon(Icons.show_chart,color: Colors.white),
+          title: Text("Statistiques",style: 
           TextStyle(
             color: Colors.white
           ),),

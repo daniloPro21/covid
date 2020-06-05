@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -31,7 +31,8 @@ dependencies:
   flutter_map_marker_cluster: ^0.2.8
   map_controller: ^0.8.0
   flutter_map_marker_popup: ^0.1.4
-  # geolocator: ^5.3.1
+  geolocator: ^5.3.1
+  http: ^0.12.1
   # user_location: ^0.1.0
   #fluxmap: ^0.3.0
   #livemap: ^0.6.0
@@ -40,8 +41,7 @@ dependencies:
 
 
   # flutter_local_notifications: ^1.4.3
-  # http: ^0.12.1
-  # rxdart: ^0.24.1
+ 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

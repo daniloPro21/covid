@@ -8,13 +8,15 @@ import 'package:flutter_map_marker_popup/extension_api.dart';
 import 'package:map_controller/map_controller.dart';
 import 'dart:async';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-
-// import 'package:geolocator/geolocator.dart';
+import 'package:covid/core/locationService.dart';
 
 
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
+
+  
+
 }
 
 class _DashboardState extends State<Dashboard> {
@@ -23,8 +25,7 @@ class _DashboardState extends State<Dashboard> {
   StatefulMapController statefulMapController;
   StreamSubscription<StatefulMapControllerStateChange> sub;
 
-  
-  
+
 
   
   @override
@@ -35,33 +36,13 @@ class _DashboardState extends State<Dashboard> {
 
     statefulMapController.onReady.then((_) => print("The map is ready"));
 
-    sub =statefulMapController.changeFeed.listen((change) =>setState(() {}));
+    sub = statefulMapController.changeFeed.listen((change) =>setState(() {}));
+
+    getPosition();
     super.initState();
   }
 
 
-// Future<Position> getuserposition() async
-//   {
-
-//     var geolocator = Geolocator();
-//     var locationOptions =LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-//     GeolocationStatus geolocationStatus = await Geolocator().checkGeolocationPermissionStatus();
-
-  
-//        Position userPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-//        return userPosition;
-
-
-
-//       //  StreamSubscription<Position>positionStream = geolocator.getPositionStream(locationOptions).listen(
-//       //   (Position userposition)
-//       //   {
-//       //     return(userposition == null ? 'Unknown' :userposition.latitude.toString() + ',' + userposition.longitude.toString());
-//       //   }
-//       // );
-
-//       //List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(userPosition.latitude, userPosition.longitude);
-//   }
 
   
 
@@ -76,8 +57,9 @@ final PopupController _popupLayerConroller = PopupController();
       mapController: mapController,
       options:new MapOptions(
         rotation: 1.0,
-        center: new LatLng(6,6),
+        //center: LatLng(lat,long),
         zoom: 10.0,
+        interactive: true,
         plugins: [
           PopupMarkerPlugin()],
           onTap:  (_) => _popupLayerConroller.hidePopup(),
@@ -85,8 +67,8 @@ final PopupController _popupLayerConroller = PopupController();
     layers: [
       statefulMapController.tileLayer,
       MarkerLayerOptions(markers: statefulMapController.markers),
-      //PolylineLayerOptions(polylines: statefulMapController.lines),
-      //PolygonLayerOptions(polygons: statefulMapController.polygons),
+      PolylineLayerOptions(polylines: statefulMapController.lines),
+      PolygonLayerOptions(polygons: statefulMapController.polygons),
       new TileLayerOptions(
         urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         subdomains: ['a' , 'b' , 'c']
@@ -96,7 +78,7 @@ final PopupController _popupLayerConroller = PopupController();
           new Marker(
             width: 180.0,
             height:180.0,
-            point:new LatLng(6,6),
+            point:new LatLng(lat,long),
             builder: (ctx) =>
             new IconButton(
               icon: Icon(Icons.person_pin_circle,color: Colors.blue),
@@ -114,10 +96,28 @@ final PopupController _popupLayerConroller = PopupController();
            new Marker(
             width: 80.0,
             height:80.0,
-            point:new LatLng(6.1,7.9),
+            point:new LatLng(6,7.9),
             builder: (ctx) =>
            new IconButton(
               icon: Icon(Icons.person_pin_circle,color: Colors.red,),
+            )
+          ),
+          new Marker(
+            width: 80.0,
+            height:80.0,
+            point:new LatLng(6,13),
+            builder: (ctx) =>
+           new IconButton(
+              icon: Icon(Icons.person_pin_circle,color: Colors.green,),
+            )
+          ),
+          new Marker(
+            width: 80.0,
+            height:80.0,
+            point:new LatLng(6,7.9),
+            builder: (ctx) =>
+           new IconButton(
+              icon: Icon(Icons.person_pin_circle,color: Colors.green,),
             )
           ),
         ],
@@ -138,19 +138,30 @@ final PopupController _popupLayerConroller = PopupController();
         ),
       ),
       ),
+      CircleLayerOptions(
+        circles: [
+          new CircleMarker(
+            point: LatLng(lat, long),
+            color: Colors.blue.withOpacity(0.2),
+            borderStrokeWidth: 2.0,
+            borderColor: Colors.blue,
+            radius: 30
+          )
+        ]
+      )
     ],
     ),
-    Positioned(
-      top: 15.0,
-      right: 15.0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10.0)
-        ),
-        child: TileLayersBar(controller: statefulMapController),
-      ),
-    ),
+    // Positioned(
+    //   top: 15.0,
+    //   right: 15.0,
+    //   child: Container(
+    //     decoration: BoxDecoration(
+    //       color: Colors.black,
+    //       borderRadius: BorderRadius.circular(10.0)
+    //     ),
+    //     child: TileLayersBar(controller: statefulMapController),
+    //   ),
+    // ),
     Positioned(
       bottom: 80.0,
       right: 15.0,
@@ -161,10 +172,30 @@ final PopupController _popupLayerConroller = PopupController();
         child: FloatingActionButton(
           elevation: 3.0,
           backgroundColor: Colors.blue,
-          onPressed: (){
 
+          onPressed: (){ //fonction permettant de centrer la map sur la position de l'utilisateur
+            statefulMapController.mapController.move(LatLng(lat, long),10.0);
+            print('map centered to user location');
           },
           child: Icon(Icons.filter_center_focus),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 180.0,
+      right: 15.0,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0)
+        ),
+        child: FloatingActionButton(
+          elevation: 3.0,
+          backgroundColor: Colors.blue,
+
+          onPressed: (){ //fonction permettant de centrer la map sur la position de l'utilisateur
+            
+          },
+          child: Text('L'),
         ),
       ),
     )
