@@ -78,7 +78,7 @@ final PopupController _popupLayerConroller = PopupController();
           new Marker(
             width: 180.0,
             height:180.0,
-            point:new LatLng(lat,long),
+            point:new LatLng(userCurentlat,userCurentlong),
             builder: (ctx) =>
             new IconButton(
               icon: Icon(Icons.person_pin_circle,color: Colors.blue),
@@ -141,7 +141,7 @@ final PopupController _popupLayerConroller = PopupController();
       CircleLayerOptions(
         circles: [
           new CircleMarker(
-            point: LatLng(lat, long),
+            point: LatLng(userCurentlat,userCurentlong),
             color: Colors.blue.withOpacity(0.2),
             borderStrokeWidth: 2.0,
             borderColor: Colors.blue,
@@ -174,7 +174,7 @@ final PopupController _popupLayerConroller = PopupController();
           backgroundColor: Colors.blue,
 
           onPressed: (){ //fonction permettant de centrer la map sur la position de l'utilisateur
-            statefulMapController.mapController.move(LatLng(lat, long),10.0);
+            statefulMapController.mapController.move(LatLng(userCurentlat,userCurentlong),10.0);
             print('map centered to user location');
           },
           child: Icon(Icons.filter_center_focus),

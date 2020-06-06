@@ -2,16 +2,16 @@
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 
-double lat;
-double long;
+double userCurrentlat;
+double userCurentlong;
 
 
 void getPosition() async {
 
-  Position dPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  Position currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
- lat = dPosition.latitude;
- long = dPosition.longitude;
+ userCurrentlat = currentPosition.latitude;
+ userCurentlong = currentPosition.longitude;
 
  
   
