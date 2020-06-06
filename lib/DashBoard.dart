@@ -32,6 +32,7 @@ class _DashboardState extends State<Dashboard> {
   void initState()
   {
     mapController = MapController();
+
     statefulMapController = StatefulMapController(mapController: mapController);
 
     statefulMapController.onReady.then((_) => print("The map is ready"));
@@ -57,7 +58,6 @@ final PopupController _popupLayerConroller = PopupController();
       mapController: mapController,
       options:new MapOptions(
         rotation: 1.0,
-        //center: LatLng(lat,long),
         zoom: 10.0,
         interactive: true,
         plugins: [
@@ -67,8 +67,8 @@ final PopupController _popupLayerConroller = PopupController();
     layers: [
       statefulMapController.tileLayer,
       MarkerLayerOptions(markers: statefulMapController.markers),
-      PolylineLayerOptions(polylines: statefulMapController.lines),
-      PolygonLayerOptions(polygons: statefulMapController.polygons),
+      //PolylineLayerOptions(polylines: statefulMapController.lines),
+      //PolygonLayerOptions(polygons: statefulMapController.polygons),
       new TileLayerOptions(
         urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         subdomains: ['a' , 'b' , 'c']
@@ -78,7 +78,7 @@ final PopupController _popupLayerConroller = PopupController();
           new Marker(
             width: 180.0,
             height:180.0,
-            point:new LatLng(userCurentlat,userCurentlong),
+            point:new LatLng(userCurrentlat,userCurrentlong),
             builder: (ctx) =>
             new IconButton(
               icon: Icon(Icons.person_pin_circle,color: Colors.blue),
@@ -141,7 +141,7 @@ final PopupController _popupLayerConroller = PopupController();
       CircleLayerOptions(
         circles: [
           new CircleMarker(
-            point: LatLng(userCurentlat,userCurentlong),
+            point: LatLng(userCurrentlat,userCurrentlong),
             color: Colors.blue.withOpacity(0.2),
             borderStrokeWidth: 2.0,
             borderColor: Colors.blue,
@@ -174,7 +174,7 @@ final PopupController _popupLayerConroller = PopupController();
           backgroundColor: Colors.blue,
 
           onPressed: (){ //fonction permettant de centrer la map sur la position de l'utilisateur
-            statefulMapController.mapController.move(LatLng(userCurentlat,userCurentlong),10.0);
+            statefulMapController.mapController.move(LatLng(userCurrentlat,userCurrentlong),10.0);
             print('map centered to user location');
           },
           child: Icon(Icons.filter_center_focus),
@@ -192,7 +192,7 @@ final PopupController _popupLayerConroller = PopupController();
           elevation: 3.0,
           backgroundColor: Colors.blue,
 
-          onPressed: (){ //fonction permettant de centrer la map sur la position de l'utilisateur
+          onPressed: (){ //affiche la legende de la carte dans un bottom sheet
             
           },
           child: Text('L'),
