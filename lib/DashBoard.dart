@@ -25,6 +25,14 @@ class _DashboardState extends State<Dashboard> {
   StatefulMapController statefulMapController;
   StreamSubscription<StatefulMapControllerStateChange> sub;
 
+  final PopupController _popupController = PopupController();
+
+  List<Marker> markers;
+  int pointIndex;
+  List points = [
+    LatLng(51.5, -0.09),
+    LatLng(49.8566, 3.3522),
+  ];
 
 
   
@@ -39,6 +47,41 @@ class _DashboardState extends State<Dashboard> {
 
     sub = statefulMapController.changeFeed.listen((change) =>setState(() {}));
 
+    markers = [
+      //IAI Marker
+      Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.81364,11.55838),
+        builder: (ctx) => Icon(Icons.school)
+      ),
+
+      //Hospital marker
+
+      Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.86428,11.52779),
+        builder: (ctx) => Icon(Icons.local_hospital,color: Colors.red,),
+      ),
+      Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.86927,11.51249),
+        builder: (ctx) => Icon(Icons.local_hospital,color: Colors.red,),
+      ),
+      Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.87358,11.51246),
+        builder: (ctx) => Icon(Icons.local_hospital,color: Colors.red,),
+      ),
+    ];
+
     getPosition();
     super.initState();
   }
@@ -47,163 +90,84 @@ class _DashboardState extends State<Dashboard> {
 
   
 
-
-  @override
+ @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh),
+        onPressed: () {
+          pointIndex++;
+          if (pointIndex >= points.length) {
+            pointIndex = 0;
+          }
+          setState(() {
+            markers[0] = Marker(
+              point: points[pointIndex],
+              anchorPos: AnchorPos.align(AnchorAlign.center),
+              height: 30,
+              width: 30,
+              builder: (ctx) => Icon(Icons.pin_drop),
+            );
 
-final PopupController _popupLayerConroller = PopupController();
-    return new Stack(
-      children: <Widget>[
-          FlutterMap(
-      mapController: mapController,
-      options:new MapOptions(
-        rotation: 1.0,
-        zoom: 10.0,
-        interactive: true,
-        plugins: [
-          PopupMarkerPlugin()],
-          onTap:  (_) => _popupLayerConroller.hidePopup(),
+            // one of this
+            markers = List.from(markers);
+            // markers = [...markers];
+            // markers = []..addAll(markers);
+          });
+        },
       ),
-    layers: [
-      statefulMapController.tileLayer,
-      MarkerLayerOptions(markers: statefulMapController.markers),
-      //PolylineLayerOptions(polylines: statefulMapController.lines),
-      //PolygonLayerOptions(polygons: statefulMapController.polygons),
-      new TileLayerOptions(
-        urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        subdomains: ['a' , 'b' , 'c']
-      ),
-      PopupMarkerLayerOptions(
-        markers: [
-          new Marker(
-            width: 180.0,
-            height:180.0,
-            point:new LatLng(userCurrentlat,userCurrentlong),
-            builder: (ctx) =>
-            new IconButton(
-              icon: Icon(Icons.person_pin_circle,color: Colors.blue),
-            )
+      body: FlutterMap(
+        options: MapOptions(
+          center: points[0],
+          zoom: 5,
+          plugins: [
+            MarkerClusterPlugin(),
+          ],
+          onTap: (_) => _popupController
+              .hidePopup(), // Hide popup when the map is tapped.
+        ),
+        layers: [
+          TileLayerOptions(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'],
           ),
-           new Marker(
-            width: 80.0,
-            height:80.0,
-            point:new LatLng(6.1,6.9),
-            builder: (ctx) =>
-           new IconButton(
-              icon: Icon(Icons.person_pin_circle,color: Colors.red,),
-            )
-          ),
-           new Marker(
-            width: 80.0,
-            height:80.0,
-            point:new LatLng(6,7.9),
-            builder: (ctx) =>
-           new IconButton(
-              icon: Icon(Icons.person_pin_circle,color: Colors.red,),
-            )
-          ),
-          new Marker(
-            width: 80.0,
-            height:80.0,
-            point:new LatLng(6,13),
-            builder: (ctx) =>
-           new IconButton(
-              icon: Icon(Icons.person_pin_circle,color: Colors.green,),
-            )
-          ),
-          new Marker(
-            width: 80.0,
-            height:80.0,
-            point:new LatLng(6,7.9),
-            builder: (ctx) =>
-           new IconButton(
-              icon: Icon(Icons.person_pin_circle,color: Colors.green,),
-            )
+          MarkerClusterLayerOptions(
+            maxClusterRadius: 120,
+            size: Size(40, 40),
+            anchor: AnchorPos.align(AnchorAlign.center),
+            fitBoundsOptions: FitBoundsOptions(
+              padding: EdgeInsets.all(50),
+            ),
+            markers: markers,
+            polygonOptions: PolygonOptions(
+                borderColor: Colors.blueAccent,
+                color: Colors.black12,
+                borderStrokeWidth: 3),
+            popupOptions: PopupOptions(
+                popupSnap: PopupSnap.top,
+                popupController: _popupController,
+                popupBuilder: (_, marker) => Container(
+                      width: 200,
+                      height: 100,
+                      color: Colors.white,
+                      child: GestureDetector(
+                        onTap: () => debugPrint("Popup tap!"),
+                        child: Text(
+                          "Container popup for marker at ${marker.point}",
+                        ),
+                      ),
+                    )),
+            builder: (context, markers) {
+              return FloatingActionButton(
+                child: Text(markers.length.toString()),
+                onPressed: null,
+              );
+            },
           ),
         ],
-      popupSnap: PopupSnap.top,
-      popupController: _popupLayerConroller,
-      popupBuilder: (BuildContext _, Marker marker) => 
-      Card(
-        elevation: 5.0,
-        child: Container(
-          height: 120,
-          width: 200,
-          color: Colors.white,
-          child:  ListTile(
-            leading: Icon(Icons.pin_drop,color: Colors.blue,),
-            title: Text("Restons chez nous et limitons nos déplacement a l'éssentiel"),
-            subtitle: Text(''),
-          )
-        ),
       ),
-      ),
-      CircleLayerOptions(
-        circles: [
-          new CircleMarker(
-            point: LatLng(userCurrentlat,userCurrentlong),
-            color: Colors.blue.withOpacity(0.2),
-            borderStrokeWidth: 2.0,
-            borderColor: Colors.blue,
-            radius: 30
-          )
-        ]
-      )
-    ],
-    ),
-    // Positioned(
-    //   top: 15.0,
-    //   right: 15.0,
-    //   child: Container(
-    //     decoration: BoxDecoration(
-    //       color: Colors.black,
-    //       borderRadius: BorderRadius.circular(10.0)
-    //     ),
-    //     child: TileLayersBar(controller: statefulMapController),
-    //   ),
-    // ),
-    Positioned(
-      bottom: 80.0,
-      right: 15.0,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0)
-        ),
-        child: FloatingActionButton(
-          elevation: 3.0,
-          backgroundColor: Colors.blue,
-
-          onPressed: (){ //fonction permettant de centrer la map sur la position de l'utilisateur
-            statefulMapController.mapController.move(LatLng(userCurrentlat,userCurrentlong),10.0);
-            print('map centered to user location');
-          },
-          child: Icon(Icons.filter_center_focus),
-        ),
-      ),
-    ),
-    Positioned(
-      top: 180.0,
-      right: 15.0,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0)
-        ),
-        child: FloatingActionButton(
-          elevation: 3.0,
-          backgroundColor: Colors.blue,
-
-          onPressed: (){ //affiche la legende de la carte dans un bottom sheet
-            
-          },
-          child: Text('L'),
-        ),
-      ),
-    )
-      ],
     );
-    
   }
-
   
 
   @override
