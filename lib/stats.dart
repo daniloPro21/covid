@@ -33,6 +33,7 @@ class _StatsState extends State<Stats> {
 
 
         
+ 
 
 
  @override
@@ -114,7 +115,7 @@ Padding(
                           text: "Aujourd'hui\n",
                           style: KTitleTextStyle,
                           ),
-                          TextSpan(text:'Mis à jour ce ', style: TextStyle(
+                          TextSpan(text:'Mis à jour ce jour' , style: TextStyle(
                             color: KTextLightColor,
                           ),
                           ),
@@ -122,7 +123,7 @@ Padding(
                       ),
                       ),
                       Spacer(),
-                      Text("Voir les Details", style: TextStyle(color: KPrimaryColor))
+                    
                     ],
                   ),
                   SizedBox(
@@ -156,7 +157,7 @@ Padding(
                           text: "Statistiques generale\n",
                           style: KTitleTextStyle,
                           ),
-                          TextSpan(text: "Mis à jour le", style: TextStyle(
+                          TextSpan(text: "Mis à jour le " + data['updated_at'] , style: TextStyle(
                             color: KTextLightColor,
                           ),
                           ),
@@ -164,7 +165,7 @@ Padding(
                       ),
                       ),
                       Spacer(),
-                      Text("Voir les Details", style: TextStyle(color: KPrimaryColor))
+                     
                     ],
                   ),
                   SizedBox(

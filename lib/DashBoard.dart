@@ -94,29 +94,75 @@ Future<String> futureLocationData = getPosition();
         builder: (ctx) => Icon(Icons.school)
       ),
 
-      //Hospital marker
+      //Centre de priise en charge
 
       Marker(
         anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 80,
         width: 80,
         point: LatLng(3.86428,11.52779),
-        builder: (ctx) => Icon(Icons.local_hospital,color: Colors.red,),
+        builder: (ctx) => Icon(Icons.security,color: Colors.red,),
       ),
       Marker(
         anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 80,
         width: 80,
         point: LatLng(3.86927,11.51249),
-        builder: (ctx) => Icon(Icons.local_hospital,color: Colors.red,),
+        builder: (ctx) => Icon(Icons.security,color: Colors.red,),
       ),
       Marker(
         anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 80,
         width: 80,
         point: LatLng(3.87358,11.51246),
-        builder: (ctx) => Icon(Icons.local_hospital,color: Colors.red,),
+        builder: (ctx) => Icon(Icons.security,color: Colors.red,),
       ),
+
+   Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.85510,11.50901),
+        builder: (ctx) => Icon(Icons.security,color: Colors.red,),
+      ),
+
+       Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.87055,11.50996),
+        builder: (ctx) => Icon(Icons.security,color: Colors.red,),
+      ),
+
+       Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(4.06481,9.75829),
+        builder: (ctx) => Icon(Icons.security,color: Colors.red,),
+      ),
+
+// Point d'eau
+
+ Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.86489,11.52162),
+        builder: (ctx) => Icon(Icons.local_drink,color: Colors.blue,),
+      ),
+      
+//depistage
+
+ Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(3.89120,11.50042),
+        builder: (ctx) => Icon(Icons.lightbulb_outline,color: Colors.green,),
+      ),
+
+
     ];
 
             

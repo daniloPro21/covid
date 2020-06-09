@@ -123,9 +123,10 @@ Widget _Slider()
           ),
           onTap: ()
           {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return About();
-      }));
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)
+            {
+              return About();
+            }));
           },
         ),
         ListTile(
