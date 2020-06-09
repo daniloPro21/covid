@@ -39,6 +39,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState()
   {
+    getPosition();
+
     mapController = MapController();
 
     statefulMapController = StatefulMapController(mapController: mapController);
@@ -47,7 +49,35 @@ class _DashboardState extends State<Dashboard> {
 
     sub = statefulMapController.changeFeed.listen((change) =>setState(() {}));
 
-    markers = [
+  
+    super.initState();
+  }
+
+
+Future<String> futureLocationData = getPosition();
+
+  
+
+ @override
+  Widget build(BuildContext context) {
+   
+    return Scaffold(
+      body: FutureBuilder<String>(
+        future: futureLocationData,
+        builder: (context , snapshot)
+        {
+          if(snapshot.hasData)
+          {
+             markers = [
+
+      Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.center),
+        height: 80,
+        width: 80,
+        point: LatLng(userCurrentlat,userCurrentlong),
+        builder: (ctx) => Icon(Icons.person_pin_circle,color: Colors.blue,size: 35,)
+      ),
+
       //IAI Marker
       Marker(
         anchorPos: AnchorPos.align(AnchorAlign.center),
@@ -82,44 +112,10 @@ class _DashboardState extends State<Dashboard> {
       ),
     ];
 
-    getPosition();
-    super.initState();
-  }
-
-
-
-  
-
- @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.refresh),
-        onPressed: () {
-          pointIndex++;
-          if (pointIndex >= points.length) {
-            pointIndex = 0;
-          }
-          setState(() {
-            markers[0] = Marker(
-              point: points[pointIndex],
-              anchorPos: AnchorPos.align(AnchorAlign.center),
-              height: 30,
-              width: 30,
-              builder: (ctx) => Icon(Icons.pin_drop),
-            );
-
-            // one of this
-            markers = List.from(markers);
-            // markers = [...markers];
-            // markers = []..addAll(markers);
-          });
-        },
-      ),
-      body: FlutterMap(
+            return FlutterMap(
         options: MapOptions(
-          center: points[0],
-          zoom: 5,
+          center: LatLng(userCurrentlat,userCurrentlong),
+          zoom: 15,
           plugins: [
             MarkerClusterPlugin(),
           ],
@@ -165,7 +161,16 @@ class _DashboardState extends State<Dashboard> {
             },
           ),
         ],
-      ),
+      );
+          }
+          else if(snapshot.hasError)
+          {
+            throw Exception("Erreur de chargement de la carte");
+          }
+
+          return CircularProgressIndicator();
+        },
+      )
     );
   }
   

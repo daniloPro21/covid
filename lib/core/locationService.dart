@@ -6,14 +6,24 @@ double userCurrentlat;
 double userCurrentlong;
 
 
-void getPosition() async {
+Future<String> getPosition() async {
 
   Position currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
  userCurrentlat = currentPosition.latitude;
  userCurrentlong = currentPosition.longitude;
 
- print(userCurrentlong);
+ if(userCurrentlat != null && userCurrentlong != null)
+ {
+   print("Location data loaded");
+ }
+ else
+ {
+   throw Exception("Nous ne parvenons pas a acceder a votre position ");
+ }
+
+ 
+ return "success";
   
 }
 
