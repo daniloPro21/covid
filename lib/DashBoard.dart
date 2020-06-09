@@ -11,6 +11,8 @@ import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:covid/core/locationService.dart';
 
 
+
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -35,11 +37,15 @@ class _DashboardState extends State<Dashboard> {
   ];
 
 
+
+
   
   @override
   void initState()
   {
     getPosition();
+
+   
 
     mapController = MapController();
 
@@ -68,7 +74,8 @@ Future<String> futureLocationData = getPosition();
         {
           if(snapshot.hasData)
           {
-             markers = [
+
+            markers = [
 
       Marker(
         anchorPos: AnchorPos.align(AnchorAlign.center),
@@ -112,7 +119,9 @@ Future<String> futureLocationData = getPosition();
       ),
     ];
 
-            return FlutterMap(
+            
+            return Stack(children: <Widget>[
+              FlutterMap(
         options: MapOptions(
           center: LatLng(userCurrentlat,userCurrentlong),
           zoom: 15,
@@ -128,7 +137,7 @@ Future<String> futureLocationData = getPosition();
             subdomains: ['a', 'b', 'c'],
           ),
           MarkerClusterLayerOptions(
-            maxClusterRadius: 120,
+            maxClusterRadius: 50,
             size: Size(40, 40),
             anchor: AnchorPos.align(AnchorAlign.center),
             fitBoundsOptions: FitBoundsOptions(
@@ -147,9 +156,11 @@ Future<String> futureLocationData = getPosition();
                       height: 100,
                       color: Colors.white,
                       child: GestureDetector(
-                        onTap: () => debugPrint("Popup tap!"),
+                        onTap: () {
+                         
+                        },
                         child: Text(
-                          "Container popup for marker at ${marker.point}",
+                          "Container popup for marker at ${marker.point} ",
                         ),
                       ),
                     )),
@@ -161,14 +172,89 @@ Future<String> futureLocationData = getPosition();
             },
           ),
         ],
-      );
+      ),
+      Positioned(
+      bottom: 80.0,
+      right: 15.0,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0)
+        ),
+        child: FloatingActionButton(
+          elevation: 3.0,
+          backgroundColor: Colors.blue,
+
+          onPressed: (){ 
+
+
+            //fonction permettant de centrer la map sur la position de l'utilisateur
+            print('map centered to user location');
+          },
+          child: Icon(Icons.person_pin_circle),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 180.0,
+      right: 15.0,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0)
+        ),
+        child: FloatingActionButton(
+          elevation: 3.0,
+          backgroundColor: Colors.blue,
+
+          onPressed: (){ //affiche la legende de la carte dans un bottom sheet
+            showModalBottomSheet(context: context,
+            isScrollControlled: true,
+             builder: (BuildContext context)
+            {
+              return Container(
+                height: 285,
+                color: Colors.white10,
+                child: Center(
+                  child: Column(children: <Widget>[
+                      Text("Legende"),
+                      SizedBox(height: 1,),
+                       ListTile(leading: Icon(Icons.person_pin_circle,color:Colors.blue),
+                    title: Text("Votre position"),
+                    ),
+                    ListTile(leading: Icon(Icons.security,color:Colors.red),
+                    title: Text("Centre specialisé dans la prise en charge de patient atteint de la maladie"),
+                    ),
+                     ListTile(leading: Icon(Icons.local_drink,color:Colors.blue),
+                    title: Text("Point d'eau pour lavage de mains"),
+                    ),
+                     ListTile(leading: Icon(Icons.lightbulb_outline,color:Colors.green),
+                    title: Text("Point de depistage"),
+                    )
+                  ],
+                  ),
+                ),
+              );
+            }
+            );
+          },
+          child: Text('L'),
+        ),
+      ),
+    ),
+            ],
+            );
           }
           else if(snapshot.hasError)
           {
             throw Exception("Erreur de chargement de la carte");
           }
 
-          return CircularProgressIndicator();
+          return  Center(child: 
+          Column(children: <Widget>[
+            SizedBox(height: 60,),
+            CircularProgressIndicator(),
+            Text('Activez la localisation pour pouvoir afficher la carte')
+          ],)
+          ,);
         },
       )
     );

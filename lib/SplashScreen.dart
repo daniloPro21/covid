@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.security,color: kwhite,size: 50,),
+              Icon(Icons.verified_user,color: kwhite,size: 80,),
               SizedBox(height: 50),
               BoldText("Stay Safe",40.0,Colors.white),
 
