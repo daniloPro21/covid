@@ -1,6 +1,8 @@
 
 
 import 'package:covid/core/casesData.dart';
+import 'package:covid/utils/TextStyles.dart';
+import 'package:covid/utils/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:covid/view.dart';
@@ -14,12 +16,20 @@ import 'package:covid/view.dart';
 class _StatsState extends State<Stats> {
 
 
+  Future<void> _pullRefresh() async{
 
+    fetchCasesData();
 
+    setState(() {
+      futureCasesData = fetchCasesData(); 
+    });
+  }
 
  @override
   void initState() {
+    
     super.initState();
+
   }
 
   var futureCasesData = fetchCasesData();
@@ -31,9 +41,6 @@ class _StatsState extends State<Stats> {
   }
 
 
-
-        
- 
 
 
  @override
@@ -236,7 +243,35 @@ Padding(
               ) ;
                 
               } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                return Card(
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  BoldText("Oooups", 20.0, kblack),
+                  Icon(Icons.sentiment_dissatisfied,size: 30.0,color: Colors.red,)
+                ],
+              ),
+              SizedBox(
+                          height: 2,
+                        ),
+              NormalText("Désolé il semblerait que vous n'etes pas connecté a internet.verifiez votre connexion et reessayez",kgreyDark,16),
+              IconButton(
+                icon: Icon(Icons.replay),
+                color: Colors.blue,
+                onPressed: () {
+                       _pullRefresh();
+                    },
+              )
+            ],
+          ),
+        ),
+      );
               }
 
               // By default, show a loading spinner.

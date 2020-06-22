@@ -49,7 +49,7 @@ class SlideItem extends StatelessWidget {
                         SizedBox(
                           height: 50,
                         ),
-                        WideButton("C'est parti !!",onPressed),
+                        WideButton("Start",onPressed),
                       ],
                     )),
         ),

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:covid/Notifications.dart';
 import 'package:covid/Orders.dart';
 import 'package:covid/Dashboard.dart';
-import 'package:covid/PTest.dart';
-import 'dart:async';
+import 'chat/chat.dart';
+
 
 
 
@@ -28,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
     _pageController = PageController();
   }
 
@@ -208,7 +209,7 @@ Widget _Slider()
             Stats(), //pafe d'acceuil
             Orders(),  //la page d'infos
             Dashboard(), // la carte
-            PersonnalTest() // suivie personnel sur les possible symptomes presenté
+            HomePageDialogflow() // suivie personnel sur les possible symptomes presenté
           ],
         ),
       ),

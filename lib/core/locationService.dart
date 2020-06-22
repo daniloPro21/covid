@@ -1,5 +1,6 @@
 
 
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 
 double userCurrentlat;
@@ -26,8 +27,6 @@ Future<String> getPosition() async {
  return "success";
   
 }
-
-
 
 
 

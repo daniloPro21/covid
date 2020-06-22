@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
@@ -9,6 +10,7 @@ import 'package:map_controller/map_controller.dart';
 import 'dart:async';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:covid/core/locationService.dart';
+
 
 
 
@@ -36,16 +38,23 @@ class _DashboardState extends State<Dashboard> {
     LatLng(49.8566, 3.3522),
   ];
 
+ var geolocator;
+ List<Placemark> placemarks;
+ Future<List<Placemark>> marks;
 
+  Future<String> getAdress() async
+  {
+     
+     geolocator = await Geolocator();
+                           
+  }
 
-
-  
   @override
   void initState()
   {
     getPosition();
 
-   
+    getAdress();
 
     mapController = MapController();
 
@@ -62,6 +71,7 @@ class _DashboardState extends State<Dashboard> {
 
 Future<String> futureLocationData = getPosition();
 
+
   
 
  @override
@@ -74,6 +84,8 @@ Future<String> futureLocationData = getPosition();
         {
           if(snapshot.hasData)
           {
+
+           
 
             markers = [
 
@@ -163,14 +175,16 @@ Future<String> futureLocationData = getPosition();
       ),
 
 
-    ];
+    ];    
 
-            
+
+
+
             return Stack(children: <Widget>[
               FlutterMap(
         options: MapOptions(
           center: LatLng(userCurrentlat,userCurrentlong),
-          zoom: 15,
+          zoom: 13,
           plugins: [
             MarkerClusterPlugin(),
           ],
@@ -197,19 +211,22 @@ Future<String> futureLocationData = getPosition();
             popupOptions: PopupOptions(
                 popupSnap: PopupSnap.top,
                 popupController: _popupController,
-                popupBuilder: (_, marker) => Container(
-                      width: 200,
-                      height: 100,
-                      color: Colors.white,
-                      child: GestureDetector(
-                        onTap: () {
-                         
-                        },
-                        child: Text(
-                          "Container popup for marker at ${marker.point} ",
-                        ),
-                      ),
-                    )),
+                popupBuilder: (_, marker) 
+                {
+                  // placemarks = geolocator.
+                  // placemarkFromCoordinates(marker.point.latitude, marker.point.longitude,
+                  // localeIdentifier: 'fr_CM');
+       
+                  return Container(
+                    child: GestureDetector(
+                      child: Text("Location"),
+                    )
+                    );
+                              
+                }
+               
+               
+                ),
             builder: (context, markers) {
               return FloatingActionButton(
                 child: Text(markers.length.toString()),

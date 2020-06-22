@@ -64,8 +64,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
-                    child: BoldText(NEXT,14,kblack),
-
+                    //child: BoldText(NEXT,14,kblack),
                   ),
                 ),
 
@@ -74,8 +73,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                   alignment: Alignment.bottomLeft,
                   child: Padding(
                     padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
-                    child: BoldText(SKIP,14,kblack),
-
+                    //child: BoldText(SKIP,14,kblack),
                   ),
                 ),
 

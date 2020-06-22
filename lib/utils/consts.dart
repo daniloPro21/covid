@@ -9,15 +9,15 @@ final kgreyDark =  Colors.grey.shade700;
 final kgreyFill =  Colors.grey.shade100;
 final gold = const Color(0xFFFFDD00);
 
-//Textss
+//Texts
 
  const String POPPINS = "Poppins";
  const String OPEN_SANS = "OpenSans";
- const String SKIP = "Passer";
- const String NEXT = "Suivant";
- const String SLIDER_HEADING_1 = "Rapide!";
- const String SLIDER_HEADING_2 = "Facile !";
- const String SLIDER_HEADING_3 = "Securiser";
- const String SLIDER_DESC_1 = "Plus besoin de vous deplacer conviez vos proches a vos ceremonies en un clique";
-const String SLIDER_DESC_2 = "Convier vos amis ne sera jamais aussi facile et fun";
-const String SLIDER_DESC_3 = "Nous respectons votre vie privée";
+ //const String SKIP = "Passer";
+ //const String NEXT = "Suivant";
+ const String SLIDER_HEADING_1 = "Collecter";
+ const String SLIDER_HEADING_2 = "Informer";
+ const String SLIDER_HEADING_3 = "Prevenir";
+ const String SLIDER_DESC_1 = "Nous collectons des données qui servirront à l'amelioration de la strtategie de prevention";
+const String SLIDER_DESC_2 = "Vous avez access aux dernieres informations sur l'evolution de la pandemie en temps reél";
+const String SLIDER_DESC_3 = "Prevenir vaut mieux que guerir.Grace a Steve adoptez les bonnes Habitudes";
